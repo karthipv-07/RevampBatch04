@@ -5,7 +5,7 @@ on:
 
 jobs:
   node:
-    runs-on: [self-hosted, pwsh-karthi]
+    runs-on: [self-hosted, wsl-karthi]
 
     steps:
       - name: Clone code
