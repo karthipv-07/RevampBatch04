@@ -1,6 +1,7 @@
-Name: Basic Node pipeline
+name: Basic Node pipeline
 
-on: workflow_dispatch:
+on: 
+  workflow_dispatch:
 
 jobs:
   node:
