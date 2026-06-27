@@ -1,0 +1,23 @@
+name: SonarQube pipeline
+
+on:
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+jobs:
+  sonarqube:
+    runs-on: [self-hosted, wsl-karthi]
+
+    steps:
+      - name: Clone code
+        uses: actions/checkout@v7
+
+      - name: Sonarqube Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        with:
+          args: >
+            -Dsonar.projectKey=Node
+            -Dsonar.sources=.
+            -Dsonar.host.url=https://rubbly-bertha-unrepealed.ngrok-free.dev
+            -Dsonar.login=sqp_a448bb0973a93f11b7585f221bc2c60958f47364
