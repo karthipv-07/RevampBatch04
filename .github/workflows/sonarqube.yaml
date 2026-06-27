@@ -19,5 +19,5 @@ jobs:
           args: >
             -Dsonar.projectKey=Node
             -Dsonar.sources=.
-            -Dsonar.host.url=https://rubbly-bertha-unrepealed.ngrok-free.dev
-            -Dsonar.login=sqp_a448bb0973a93f11b7585f221bc2c60958f47364
+            -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
