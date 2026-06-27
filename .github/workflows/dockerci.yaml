@@ -23,10 +23,11 @@ jobs:
         run: docker build -f Dockerfile.multistage.secured -t dockerfile .
 
       - name: Tag Docker image
+        id: tag
         run: |
-           echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
-           docker tag dockerfile ${{ vars.DOCKERHUB_USERNAME }}/nodeapp4:${{ env.SHORT_SHA }}
+           echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
+           docker tag dockerfile ${{ vars.DOCKERHUB_USERNAME }}/nodeapp4:${GITHUB_SHA::7}
 
       - name: Push Image
         run: |
-          docker push ${{ vars.DOCKERHUB_USERNAME }}/nodeapp4:${{ env.SHORT_SHA }}
+          docker push ${{ vars.DOCKERHUB_USERNAME }}/nodeapp4:${{ steps.tag.outputs.sha }}
