@@ -25,6 +25,12 @@ app.get('/health' , (req, res) => {
 	});
 });
 
+app.post('/webhook', (req, res) => {
+    console.log("Webhook received:");
+    console.log(req.body);
+    res.status(200).send("Received");
+});
+
 app.listen(PORT , () => {
 	log("Server is running on port " + PORT);
 });
