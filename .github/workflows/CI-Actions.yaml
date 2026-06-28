@@ -35,7 +35,7 @@ jobs:
       - name: Clone code
         uses: actions/checkout@v7
 
-      - name: Login to Docker Hub
+      - name: Dockerhub Login Build and Push
         uses: karthipv-07/RevampBatch04/.github/actions/docker-build-push@main
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
