@@ -18,14 +18,17 @@ runs:
         password: ${{ inputs.password }}
 
     - name: Build Docker image
+      shell: bash
       run: docker build -f Dockerfile.multistage.secured -t dockerfile .
 
     - name: Tag Docker image
       id: tag
+      shell: bash
       run: |
         echo "sha=${GITHUB_SHA::7}" >> "$GITHUB_OUTPUT"
-        docker tag dockerfile ${{ vars.DOCKERHUB_USERNAME }}/nodeapp4:${GITHUB_SHA::7}
+        docker tag dockerfile ${{ inputs.username }}/nodeapp4:${GITHUB_SHA::7}
 
-     - name: Push Image
-       run: |
-         docker push ${{ vars.DOCKERHUB_USERNAME }}/nodeapp4:${{ steps.tag.outputs.sha }}
+    - name: Push Image
+      shell: bash
+      run: |
+        docker push ${{ inputs.username }}/nodeapp4:${{ steps.tag.outputs.sha }}
