@@ -1,0 +1,42 @@
+name: Complete CI pipeline with actions
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  sonarqube:
+    runs-on: [self-hosted, wsl-karthi]
+    if: github.event_name == 'pull_request' 
+
+    steps:
+      - name: Clone code
+        uses: actions/checkout@v7
+
+      - name: Sonarqube Scan
+        uses: SonarSource/sonarqube-scan-action@v8
+        with:
+          args: >
+            -Dsonar.projectKey=Node
+            -Dsonar.sources=.
+            -Dsonar.host.url=${{ vars.SONAR_HOST_URL }}
+            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+            -Dsonar.qualitygate.wait=true
+
+  docker:
+    runs-on: [self-hosted, wsl-karthi]
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    environment: prod
+
+    steps:
+      - name: Clone code
+        uses: actions/checkout@v7
+
+      - name: Login to Docker Hub
+        uses: karthipv-07/RevampBatch04/.github/actions/docker-build-push@main
+        with:
+          username: ${{ vars.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
